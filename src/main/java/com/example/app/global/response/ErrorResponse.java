@@ -1,6 +1,6 @@
-package com.example.app.response;
+package com.example.app.global.response;
 
-import com.example.app.error.exception.ErrorCode;
+import com.example.app.global.error.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

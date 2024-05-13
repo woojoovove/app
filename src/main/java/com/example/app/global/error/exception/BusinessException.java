@@ -1,4 +1,4 @@
-package com.example.app.error.exception;
+package com.example.app.global.error.exception;
 
 public class BusinessException extends RuntimeException {
 

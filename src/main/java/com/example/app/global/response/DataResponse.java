@@ -1,4 +1,4 @@
-package com.example.app.response;
+package com.example.app.global.response;
 
 import lombok.Builder;
 import lombok.Getter;

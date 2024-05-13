@@ -1,8 +1,8 @@
-package com.example.app.error;
+package com.example.app.global.error;
 
-import com.example.app.error.exception.BusinessException;
-import com.example.app.error.exception.ErrorCode;
-import com.example.app.response.ErrorResponse;
+import com.example.app.global.error.exception.BusinessException;
+import com.example.app.global.error.exception.ErrorCode;
+import com.example.app.global.response.ErrorResponse;
 import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
