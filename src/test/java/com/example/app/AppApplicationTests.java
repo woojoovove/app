@@ -3,9 +3,9 @@ package com.example.app;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.example.app.domain.service.GroupService;
-import com.example.app.domain.dto.GroupDTO;
-import com.example.app.domain.dto.GroupDTO.Create;
+import com.example.app.domain.group.service.GroupService;
+import com.example.app.domain.group.dto.GroupDTO;
+import com.example.app.domain.group.dto.GroupDTO.Create;
 import com.example.app.global.error.exception.BusinessException;
 import com.example.app.global.error.exception.ErrorCode;
 import jakarta.transaction.Transactional;
