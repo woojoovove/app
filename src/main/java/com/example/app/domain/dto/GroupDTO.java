@@ -1,5 +1,6 @@
-package com.example.app.domain.service.dto;
+package com.example.app.domain.dto;
 
+import lombok.Getter;
 import lombok.Setter;
 
 public class GroupDTO {
@@ -9,7 +10,7 @@ public class GroupDTO {
         private String name;
     }
 
-    @Setter
+    @Setter @Getter
     public static class Create {
         private String name;
     }
