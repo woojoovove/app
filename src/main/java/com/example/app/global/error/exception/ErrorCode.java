@@ -15,7 +15,9 @@ public enum ErrorCode {
     ENTITY_NOT_FOUND(400, "C0003", "Cannot found entity"),
     INTERNAL_SERVER_ERROR(500, "C0004", "Internal server error"),
     // group error
-    DUPLICATE_GROUP_NAME(400, "G0001", "Duplicate group name");
+    DUPLICATE_GROUP_NAME(400, "G0001", "Duplicate group name"),
+    // IO exception
+    MESSAGE_SERIALIZE_EXCEPTION(500,"I0001", "Message serialization failed");
 
 
     @JsonIgnore
