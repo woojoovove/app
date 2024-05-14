@@ -2,6 +2,7 @@ package com.example.app.domain.user.controller;
 
 import com.example.app.domain.user.dto.UserDTO;
 import com.example.app.domain.user.dto.UserDTO.JoinGroupResult;
+import com.example.app.domain.user.dto.UserDTO.LeaveGroupResult;
 import com.example.app.domain.user.service.UserService;
 import com.example.app.global.response.DataResponse;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PutMapping
+    @PutMapping("/join")
     public ResponseEntity<DataResponse<JoinGroupResult>> joinGroup(@RequestBody UserDTO.JoinGroup joinGroupDTO) {
         return DataResponse.success(userService.joinGroup(joinGroupDTO));
+    }
+    @PutMapping("/leave")
+    public ResponseEntity<DataResponse<LeaveGroupResult>> leaveGroup(@RequestBody UserDTO.LeaveGroup leaveGroupDTO) {
+        return DataResponse.success(userService.leaveGroup(leaveGroupDTO));
     }
 }

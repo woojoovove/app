@@ -6,6 +6,8 @@ import com.example.app.data.repository.UsersRepository;
 import com.example.app.domain.group.service.GroupService;
 import com.example.app.domain.user.dto.UserDTO.JoinGroup;
 import com.example.app.domain.user.dto.UserDTO.JoinGroupResult;
+import com.example.app.domain.user.dto.UserDTO.LeaveGroup;
+import com.example.app.domain.user.dto.UserDTO.LeaveGroupResult;
 import com.example.app.global.error.exception.BusinessException;
 import com.example.app.global.error.exception.ErrorCode;
 import java.util.List;
@@ -43,12 +45,24 @@ public class UserService {
         user.setGroup(group);
         userRepository.save(user);
 
-        JoinGroupResult result = new JoinGroupResult();
-        result.setUserId(user.getId());
-        result.setUserNickname(user.getNickname());
-        result.setGroupId(group.getId());
-        result.setGroupName(group.getName());
+        return JoinGroupResult.builder()
+            .userId(user.getId())
+            .userNickname(user.getNickname())
+            .groupId(group.getId())
+            .groupName(group.getName())
+            .build();
+    }
 
-        return result;
+    public LeaveGroupResult leaveGroup(LeaveGroup leaveGroupDTO) {
+        UsersEntity user = findByUserName(leaveGroupDTO.getUserNickname());
+        if (user == null) throw new BusinessException(ErrorCode.USER_NOT_FOUND);
+        user.setGroup(null);
+        userRepository.save(user);
+
+        return LeaveGroupResult.builder()
+            .userId(user.getId())
+            .userNickname(user.getNickname())
+            .group(user.getGroup())
+            .build();
     }
 }
