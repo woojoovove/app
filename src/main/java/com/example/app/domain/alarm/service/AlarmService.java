@@ -15,15 +15,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
 public class AlarmService {
-    private static final Logger logger = Logger.getLogger(AlarmService.class.getName());
     private static final long maxRequestCount = 5;
     private final GroupService groupService;
     private final UserService userService;
@@ -75,7 +72,7 @@ public class AlarmService {
         try {
             serialized = objectMapper.writeValueAsString(messageDTO);
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error serializing message to JSON: {}", e.getMessage());
+            log.error("Error serializing message to JSON: {}", e.getMessage());
             throw new BusinessException(ErrorCode.MESSAGE_SERIALIZE_EXCEPTION);
         }
         return serialized;
