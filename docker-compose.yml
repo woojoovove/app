@@ -1,0 +1,19 @@
+version: '3'
+services:
+  zookeeper:
+    image: bitnami/zookeeper:3.4.10
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: yes
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    image: bitnami/kafka:3.2.3
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      ADVERTISED_LISTENERS: 127.0.0.1
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
