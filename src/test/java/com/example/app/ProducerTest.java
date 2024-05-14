@@ -13,6 +13,7 @@ class ProducerTest {
 
     @Test
     void test() {
-        testProducer.create();
+        String message = "message";
+        testProducer.create(message);
     }
 }
