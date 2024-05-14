@@ -55,9 +55,12 @@ public class AlarmService {
         while (iterator.hasNext()) {
             int count = 0;
             List<String> targetTokens = new ArrayList<>();
-            while (count<maxRequestCount) {
-                targetTokens.add(iterator.next().getToken());
-                count++;
+            while (iterator.hasNext() && count<maxRequestCount) {
+                UsersEntity user = iterator.next();
+                if (user != null) {
+                    targetTokens.add(user.getToken());
+                    count++;
+                }
             }
             messageDTO.setToken(targetTokens);
             producer.create(serializeInJson(messageDTO));
