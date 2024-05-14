@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1/alarm")
-public class AlarmClass {
+public class AlarmController {
 
     private final AlarmService alarmService;
 
-    public AlarmClass(AlarmService alarmService) {
+    public AlarmController(AlarmService alarmService) {
         this.alarmService = alarmService;
     }
 
