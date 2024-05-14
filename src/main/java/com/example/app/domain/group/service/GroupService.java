@@ -35,12 +35,19 @@ public class GroupService {
         return modelMapper.map(groupRepository.save(entity), GroupDTO.Get.class);
     }
 
-    public List<UsersEntity> getUsersByGroup(List<String> groupNames) {
+    public List<UsersEntity> getUsersByGroupNames(List<String> groupNames) {
+
         List<GroupsEntity> groups = groupRepositorySupport.getGroupsByGroupNames(groupNames);
         Set<UsersEntity> users = new HashSet<>();
         for (GroupsEntity group : groups) {
             users.addAll(group.getUsers());
         }
         return users.stream().toList();
+    }
+
+    public List<UsersEntity> getUsersByGroupName(String groupName) {
+
+        Optional<GroupsEntity> optional = groupRepository.findByName(groupName);
+        return optional.map(GroupsEntity::getUsers).orElse(null);
     }
 }
