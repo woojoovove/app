@@ -17,7 +17,8 @@ public enum ErrorCode {
     // group error
     DUPLICATE_GROUP_NAME(400, "G0001", "Duplicate group name"),
     // IO exception
-    MESSAGE_SERIALIZE_EXCEPTION(500,"I0001", "Message serialization failed");
+    MESSAGE_SERIALIZE_EXCEPTION(500,"I0001", "Message serialization failed"),
+    INVALID_REQUEST_JSON(400, "C0004", "Invalid request json");
 
 
     @JsonIgnore
