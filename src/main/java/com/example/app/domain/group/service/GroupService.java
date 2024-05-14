@@ -50,4 +50,9 @@ public class GroupService {
         Optional<GroupsEntity> optional = groupRepository.findByName(groupName);
         return optional.map(GroupsEntity::getUsers).orElse(null);
     }
+
+    public GroupsEntity findByName(String groupName) {
+        Optional<GroupsEntity> optional = groupRepository.findByName(groupName);
+        return optional.orElse(null);
+    }
 }
