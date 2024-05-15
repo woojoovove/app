@@ -20,5 +20,5 @@ public class UsersEntity {
     private String token;
 
     @OneToMany(mappedBy = "user")
-    private List<UserGroupEntity> userGroups;
+    private List<MembershipEntity> userGroups;
 }

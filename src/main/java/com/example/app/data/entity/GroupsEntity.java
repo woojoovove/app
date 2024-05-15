@@ -25,5 +25,5 @@ public class GroupsEntity {
     private String name;
 
     @OneToMany(mappedBy = "group")
-    private List<UserGroupEntity> userGroup;
+    private List<MembershipEntity> userGroup;
 }
