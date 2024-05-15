@@ -21,7 +21,8 @@ public enum ErrorCode {
     USER_NOT_FOUND(400, "U0001", "User not found"),
     // IO exception
     MESSAGE_SERIALIZE_EXCEPTION(500,"I0001", "Message serialization failed"),
-    INVALID_REQUEST_JSON(400, "C0004", "Invalid request json");
+    INVALID_REQUEST_JSON(400, "C0004", "Invalid request json"),
+    MEMBERSHIP_NOT_FOUND(400, "M0001", "Membership not found");
 
 
     @JsonIgnore
