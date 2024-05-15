@@ -32,6 +32,11 @@ public class AlarmService {
         this.producer = producer;
     }
 
+    /**
+     * "@user1, @group1, @"
+     * @param alarmDTO 알람 대상, 내용이 담긴 DTO
+     * @return 알람 대상의 수
+     */
     public Long pushAlarm(AlarmDTO alarmDTO) {
         Set<UsersEntity> users = new HashSet<>();
         for (String target : alarmDTO.getTarget()){
@@ -41,7 +46,7 @@ public class AlarmService {
             } if (target.startsWith("@@")){
                 users.addAll(groupService.getUsersByGroupName(target.substring(2)));
             } else if (target.startsWith("@")) {
-                users.add(userService.findByUserName(target.substring(1)));
+                users.add(userService.findByUserNameOrNull(target.substring(1)));
             }
         }
 

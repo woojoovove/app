@@ -7,10 +7,8 @@ import com.example.app.data.repository.GroupRepositorySupport;
 import com.example.app.domain.group.dto.GroupDTO;
 import com.example.app.global.error.exception.BusinessException;
 import com.example.app.global.error.exception.ErrorCode;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -35,24 +33,19 @@ public class GroupService {
         return modelMapper.map(groupRepository.save(entity), GroupDTO.Get.class);
     }
 
-    public List<UsersEntity> getUsersByGroupNames(List<String> groupNames) {
-
-        List<GroupsEntity> groups = groupRepositorySupport.getGroupsByGroupNames(groupNames);
-        Set<UsersEntity> users = new HashSet<>();
-        for (GroupsEntity group : groups) {
-            users.addAll(group.getUsers());
-        }
-        return users.stream().toList();
-    }
-
     public List<UsersEntity> getUsersByGroupName(String groupName) {
-
-        Optional<GroupsEntity> optional = groupRepository.findByName(groupName);
-        return optional.map(GroupsEntity::getUsers).orElse(null);
+        return groupRepositorySupport.findUsersByGroupName(groupName);
     }
 
-    public GroupsEntity findByName(String groupName) {
+    // 없다고 바로 throw하지 않는 메소드가 필요함
+    // 예: 클라이언트가 알람 타겟을 표기할 때, 존재하지 않는 이름을 입력할 수도 있음.
+    public GroupsEntity findByNameOrNull(String groupName) {
         Optional<GroupsEntity> optional = groupRepository.findByName(groupName);
         return optional.orElse(null);
+    }
+
+    public GroupsEntity findByNameOrThrow(String groupName) {
+        Optional<GroupsEntity> optional = groupRepository.findByName(groupName);
+        return optional.orElseThrow(() -> new BusinessException(ErrorCode.GROUP_NOT_FOUND));
     }
 }
