@@ -13,7 +13,7 @@ class ProducerTest {
 
     @Test
     void test() {
-        String message = "message";
+        String message = "{\"token\":[\"token9\",\"token6\",\"token5\",\"token7\",\"token2\"],\"message\":\"[CRITICAL] string\"}";
         testProducer.create(message);
     }
 }
