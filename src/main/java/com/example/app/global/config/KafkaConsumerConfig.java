@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
@@ -17,10 +18,14 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 @Slf4j
 public class KafkaConsumerConfig {
 
+    @Value("${spring.kafka.host}")
+    private String host;
+    @Value("${spring.kafka.port}")
+    private String port;
     @Bean
     public ConsumerFactory<String, MessageDTO> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9093");
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, host + ":" + port);
         config.put(ConsumerConfig.GROUP_ID_CONFIG, "group_1");
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);

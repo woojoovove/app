@@ -18,3 +18,8 @@ spring:
     init:
       data-locations: classpath:data.sql
       mode: always
+  kafka:
+    host: localhost
+    port: 9093
+server:
+  port: 8080
