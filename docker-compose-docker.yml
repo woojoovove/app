@@ -32,3 +32,4 @@ services:
       - kafka
     environment:
       JAVA_OPTS: "-Dspring.profiles.active=docker"
+      SPRING_APPLICATION_NAME: application-docker
