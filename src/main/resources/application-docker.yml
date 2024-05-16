@@ -23,9 +23,9 @@ spring:
       data-locations: classpath:data.sql
       mode: always
   kafka:
-    host: localhost
-    port: 9093
+    host: kafka
+    port: 9092
   config:
     profiles:
       activate:
-        on-profile: dev
+        on-profile: docker

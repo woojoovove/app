@@ -12,12 +12,24 @@ services:
     container_name: kafka
     ports:
       - "9092:9092"
-      - "9093:9093"
     environment:
-      KAFKA_CFG_LISTENERS: INTERNAL://:9092,EXTERNAL://:9093
-      KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://localhost:9093
-      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_CFG_LISTENERS: INTERNAL://:9092
+      KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://kafka:9092
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./logs:/logs
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kafka
+    environment:
+      JAVA_OPTS: "-Dspring.profiles.active=docker"
+      SPRING_APPLICATION_NAME: application-docker
