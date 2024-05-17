@@ -43,7 +43,7 @@ public class AlarmService {
             if (target.equals("@all")) {
                 users.addAll(userService.getAllUsers());
                 break;
-            } if (target.startsWith("@@")){
+            } else if (target.startsWith("@@")){
                 users.addAll(groupService.getUsersByGroupName(target.substring(2)));
             } else if (target.startsWith("@")) {
                 users.add(userService.findByUserNameOrNull(target.substring(1)));
@@ -55,13 +55,12 @@ public class AlarmService {
 
         Iterator<UsersEntity> iterator = users.iterator();
         while (iterator.hasNext()) {
-            int count = 0;
+
             List<String> targetTokens = new ArrayList<>();
-            while (iterator.hasNext() && count<maxRequestCount) {
+            for (int count = 0; iterator.hasNext() && count<maxRequestCount; count++) {
                 UsersEntity user = iterator.next();
                 if (user != null) {
                     targetTokens.add(user.getToken());
-                    count++;
                 }
             }
             messageDTO.setToken(targetTokens);
