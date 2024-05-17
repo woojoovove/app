@@ -16,7 +16,7 @@ import lombok.Data;
 @Data
 public class AlarmDTO {
     @NotBlank
-    @Schema(description = "알림 대상 목록", example = "[\"@user1\", \"@group1\"]")
+    @Schema(description = "알림 대상 목록", example = "[\"@user1\", \"@@group1\"]")
     private List<String> target;
     @NotBlank
     @Schema(description = "심각도", defaultValue = "MEDIUM", allowableValues = {"CRITICAL", "HIGH", "MEDIUM", "LOW"})
