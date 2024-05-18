@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.app.layered.membership;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 
+
 @WebMvcTest(MembershipControllerTest.class)
 public class MembershipControllerTest {
     @Autowired
@@ -28,9 +29,10 @@ public class MembershipControllerTest {
     @MockBean
     private MembershipService membershipService;
 
+
     @Test
     @DisplayName("알림 그룹 참가 컨트롤러 로직 확인")
-    public void joinGroupTest() throws Exception {
+    void joinGroupTest() throws Exception {
         JoinDTO joinDTO =  JoinDTO.builder()
             .userNickname("user1")
             .groupName("group1")
