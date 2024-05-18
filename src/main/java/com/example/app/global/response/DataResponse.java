@@ -1,5 +1,7 @@
 package com.example.app.global.response;
 
+import com.example.app.global.swagger.SchemaDescriptionUtils;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 @Setter
 @Builder
 public class DataResponse<T> {
+    @Schema(description = SchemaDescriptionUtils.Response.status, example = "true")
     private boolean success;
     private T data;
 

@@ -18,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @Transactional
 class GroupCreationTest {
 
-    // TODO autowired 사용 이유
     @Autowired
     private GroupService groupService;
 
