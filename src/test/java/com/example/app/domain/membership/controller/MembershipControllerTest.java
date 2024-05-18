@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 
-@Disabled
+@Disabled("TODO : ResourceHttpRequestHandler 이슈 해결")
 @WebMvcTest(MembershipControllerTest.class)
 public class MembershipControllerTest {
     @Autowired
