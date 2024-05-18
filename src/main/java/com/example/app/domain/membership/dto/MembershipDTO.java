@@ -9,6 +9,7 @@ import lombok.Setter;
 
 
 public class MembershipDTO {
+    @Builder
     @Getter
     @Schema(description = "그룹 참가 Input DTO")
     public static class JoinDTO {
