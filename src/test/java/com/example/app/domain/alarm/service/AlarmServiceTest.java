@@ -12,7 +12,7 @@ import com.example.app.data.enums.Severity;
 import com.example.app.domain.alarm.dto.AlarmDTO;
 import com.example.app.domain.message.dto.MessageDTO;
 import com.example.app.kafka.Producer;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,16 +32,9 @@ public class AlarmServiceTest {
     @Mock
     private Producer producer;
 
+    // TODO src랑 동기화
     private static final long maxRequestCount = 5;
 
-    /*
-    1. set에 유저를 넣고 서비스의 결과 set.size()와 일치하는지.
-    2. set에 넣은 유저의 토큰이 MessageDTO의 tokens와 일치하는지.
-    2. set에 1개를 넣고 producer를 1번 호출하는지
-    3. set에 6개를 넣고 producer를 2번 호출하는지
-    4. producer.create()에 넘어간 인수를 역직렬화 해서
-       set에 넣은 정보랑 일치하는지
-     */
 
     /*
     코드의 의도 : pushAlarmService 내에서 HelperService의 3가지 메소드가
@@ -90,20 +83,76 @@ public class AlarmServiceTest {
         ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
         verify(producer, times(1)).create(argumentCaptor.capture());
 
-        // 4. serializeInJson()에 값을 넣고 producer가 해당 값을 받는지
+        // 4. serializeInJson()에 들어간 값이 producer()로 전달 되는지
         String capturedArgument = argumentCaptor.getValue();
         assertNotNull(capturedArgument);
         assertEquals(capturedArgument, serializedMessage);
 
-        // 5. produceMessage()에 메시지를 넣고 serializeInJson()가 해당 값을 받는지
+        // 5. set에 유저 1명을 넣고 serializeInJson()이 1회 호출 되는지
         ArgumentCaptor<MessageDTO> dtoArgumentCaptor = ArgumentCaptor.forClass(MessageDTO.class);
         verify(alarmHelperService, times(1)).serializeInJson(dtoArgumentCaptor.capture());
 
+        // 6. produceMessage()에 들어간 값이 serializeInJson()로 전달 되는지
         MessageDTO capturedMessge = dtoArgumentCaptor.getValue();
         assertNotNull(capturedMessge);
         assertEquals(messageDTO.getMessage(), capturedMessge.getMessage());
         assertEquals(messageDTO.getToken(), capturedMessge.getToken());
 
+    }
+    @Test
+    @DisplayName("알람 전송 서비스 로직 확인 - user maxRequestCount + 1명")
+    void pushAlarmTwiceTest() {
+
+        List<String> targets = new ArrayList<>();
+        List<String> tokens = new ArrayList<>();
+        List<UsersEntity> users = new ArrayList<>();
+
+        for (int i=1; i<=maxRequestCount + 1; i++) {
+            String token = "token" + i;
+            targets.add("@user" + i);
+            tokens.add(token);
+            UsersEntity user = UsersEntity.builder()
+                .id((long) i)
+                .nickname("user" + i)
+                .token(token)
+                .build();
+            users.add(user);
+        }
+
+        AlarmDTO alarmDTO = AlarmDTO.builder()
+            .target(targets)
+            .severity(Severity.HIGH)
+            .message("node 1 down")
+            .build();
+
+        MessageDTO messageDTO = MessageDTO.builder()
+            .token(tokens)
+            .message("[" + alarmDTO.getSeverity().name()
+                + "] " + alarmDTO.getMessage())
+            .build();
+
+        when(alarmHelperService.getUsersByTarget(anyString()))
+            .thenReturn(users);
+        when(alarmHelperService.produceMessage(alarmDTO))
+            .thenReturn(messageDTO.getMessage());
+
+        // 1. set에 유저를 넣고 서비스의 결과가 set.size()와 일치하는지 확인
+        assertEquals(alarmService.pushAlarm(alarmDTO), maxRequestCount + 1);
+
+        // 2. set에 넣은 유저의 토큰이 MessageDTO의 token과 일치하는지.
+        assertEquals(messageDTO.getToken(), tokens);
+
+        // 3. set에 유저 maxRequestCount + 1명을 넣고 producer()가 2회 호출 되는지
+        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+        verify(producer, times(2)).create(argumentCaptor.capture());
+
+        // 4. set에 유저 maxRequestCount + 1명을 넣고 serializeJson()이 2회 호출 되는지
+        ArgumentCaptor<MessageDTO> dtoArgumentCaptor = ArgumentCaptor.forClass(MessageDTO.class);
+        verify(alarmHelperService, times(2)).serializeInJson(dtoArgumentCaptor.capture());
+
+        // 5. produceMessage()에 들어간 값이 serializeInJson()로 전달 되는지
+        MessageDTO capturedMessge = dtoArgumentCaptor.getValue();
+        assertNotNull(capturedMessge);
     }
 
 }
