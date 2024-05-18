@@ -130,4 +130,26 @@ public class MembershipServiceTest {
             assertEquals(e.getErrorCode(), ErrorCode.MEMBERSHIP_NOT_FOUND);
         }
     }
+    @Test
+    @DisplayName("그룹에 가입한 적이 없는데 멤버십 조회 할 때 MEMBERSHIP_NOT_FOUND 예외 발생")
+    void noMembershipException() {
+        UsersEntity user = UsersEntity.builder()
+            .id(1L)
+            .nickname(TEST_USER_NAME)
+            .build();
+
+        GroupsEntity group = GroupsEntity.builder()
+            .id(1L)
+            .name(TEST_GROUP_NAME)
+            .build();
+
+        when(membershipRepositorySupport.findByUserAndGroup(
+            user, group)).thenReturn(Optional.empty());
+
+        try {
+            membershipService.findByUserIdAndGroupIdOrThrow(user, group);
+        } catch (BusinessException e) {
+            assertEquals(e.getErrorCode(), ErrorCode.MEMBERSHIP_NOT_FOUND);
+        }
+    }
 }
