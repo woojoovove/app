@@ -1,4 +1,4 @@
-package com.example.app.domain.membership;
+package com.example.app.data.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
