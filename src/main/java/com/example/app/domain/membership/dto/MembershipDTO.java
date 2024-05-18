@@ -37,7 +37,7 @@ public class MembershipDTO {
         @Schema(description = SchemaDescriptionUtils.Group.name, example = "group1")
         private String groupName;
     }
-    @Getter
+    @Getter @Builder
     public static class LeaveDTO {
         @NotBlank
         @Schema(description = SchemaDescriptionUtils.User.name, example = "member1")
