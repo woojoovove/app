@@ -9,6 +9,7 @@ import com.example.app.global.response.DataResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ public class MembershipController {
     }
 
 
-    @PutMapping("/join")
+    @PostMapping("/join")
     @Operation(summary = "사용자 이름과 그룹 이름으로 그룹에 참여하는 API")
     public ResponseEntity<DataResponse<JoinResultDTO>> joinGroup(@RequestBody JoinDTO joinGroupDTO) {
         return DataResponse.success(membershipService.joinGroup(joinGroupDTO));
