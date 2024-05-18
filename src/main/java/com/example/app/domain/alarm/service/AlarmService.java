@@ -2,16 +2,9 @@ package com.example.app.domain.alarm.service;
 
 import com.example.app.data.entity.UsersEntity;
 import com.example.app.domain.alarm.dto.AlarmDTO;
-import com.example.app.domain.group.service.GroupService;
 import com.example.app.domain.message.dto.MessageDTO;
-import com.example.app.domain.user.service.UserService;
-import com.example.app.global.error.exception.BusinessException;
-import com.example.app.global.error.exception.ErrorCode;
 import com.example.app.kafka.Producer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -23,13 +16,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AlarmService {
     private static final long maxRequestCount = 5;
-    private final GroupService groupService;
-    private final UserService userService;
+
+    private final AlarmHelperService alarmHelperService;
     private final Producer producer;
 
-    public AlarmService(GroupService groupService, UserService userService, Producer producer) {
-        this.groupService = groupService;
-        this.userService = userService;
+    public AlarmService(AlarmHelperService alarmHelperService, Producer producer) {
+        this.alarmHelperService = alarmHelperService;
         this.producer = producer;
     }
 
@@ -44,11 +36,11 @@ public class AlarmService {
         Set<String> targets = Set.copyOf(alarmDTO.getTarget());
 
         Set<UsersEntity> users = targets.stream()
-                .flatMap(target -> getUsersByTarget(target).stream())
+                .flatMap(target -> alarmHelperService.getUsersByTarget(target).stream())
                 .collect(Collectors.toSet());
 
         MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setMessage(produceMessage(alarmDTO));
+        messageDTO.setMessage(alarmHelperService.produceMessage(alarmDTO));
 
         Iterator<UsersEntity> iterator = users.iterator();
 
@@ -67,40 +59,8 @@ public class AlarmService {
                 }
             }
             messageDTO.setToken(targetTokens);
-            producer.create(serializeInJson(messageDTO));
+            producer.create(alarmHelperService.serializeInJson(messageDTO));
         }
         return (long) users.size();
-    }
-
-    private List<UsersEntity> getUsersByTarget(String target) {
-        if (target.equals("@all")) {
-            return new ArrayList<>(userService.getAllUsers());
-        } else if (target.startsWith("@@")){
-            return groupService.getUsersByGroupName(target.substring(2));
-        } else if (target.startsWith("@")) {
-            UsersEntity user = userService.findByUserNameOrNull(target.substring(1));
-            return user != null ? Collections.singletonList(user) : Collections.emptyList();
-        }
-        return Collections.emptyList();
-    }
-
-    private String serializeInJson(MessageDTO messageDTO) {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        String serialized;
-        try {
-            serialized = objectMapper.writeValueAsString(messageDTO);
-        } catch (IOException e) {
-            log.error("Error serializing message to JSON: {}", e.getMessage());
-            throw new BusinessException(ErrorCode.MESSAGE_SERIALIZE_EXCEPTION);
-        }
-        return serialized;
-    }
-
-    private String produceMessage(AlarmDTO alarmDTO) {
-        return "["
-            + alarmDTO.getSeverity().name()
-            + "] "
-            + alarmDTO.getMessage();
     }
 }
