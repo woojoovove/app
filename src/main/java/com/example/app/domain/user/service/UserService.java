@@ -2,7 +2,6 @@ package com.example.app.domain.user.service;
 
 import com.example.app.data.entity.UsersEntity;
 import com.example.app.data.repository.UsersRepository;
-import com.example.app.domain.group.service.GroupService;
 import com.example.app.global.error.exception.BusinessException;
 import com.example.app.global.error.exception.ErrorCode;
 import java.util.List;

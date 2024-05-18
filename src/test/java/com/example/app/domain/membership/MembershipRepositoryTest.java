@@ -1,4 +1,4 @@
-package com.example.app.layered.membership;
+package com.example.app.domain.membership;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -10,8 +10,6 @@ import com.example.app.data.entity.UsersEntity;
 import com.example.app.data.repository.GroupRepository;
 import com.example.app.data.repository.MembershipRepository;
 import com.example.app.data.repository.UsersRepository;
-import com.example.app.global.swagger.SchemaDescriptionUtils.Membership;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

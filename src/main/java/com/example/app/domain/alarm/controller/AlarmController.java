@@ -27,7 +27,7 @@ public class AlarmController {
         this.alarmService = alarmService;
     }
 
-    @PostMapping
+    @PostMapping("/")
     @Operation(summary = "알림 푸시", description = "원하는 사용자나 그룹에 알림을 보내는 API",
         responses = {
             @ApiResponse(responseCode = "200", description = "알림 푸시 성공"),

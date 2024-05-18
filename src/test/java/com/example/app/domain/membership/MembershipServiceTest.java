@@ -1,4 +1,4 @@
-package com.example.app.layered.membership;
+package com.example.app.domain.membership;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -6,7 +6,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import com.example.app.data.entity.GroupsEntity;
-import com.example.app.data.entity.MembershipEntity;
 import com.example.app.data.entity.UsersEntity;
 import com.example.app.data.repository.MembershipRepositorySupport;
 import com.example.app.domain.group.service.GroupService;
@@ -23,7 +22,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
@@ -126,6 +124,28 @@ public class MembershipServiceTest {
 
         try {
             membershipService.leaveGroup(leaveDTO);
+        } catch (BusinessException e) {
+            assertEquals(e.getErrorCode(), ErrorCode.MEMBERSHIP_NOT_FOUND);
+        }
+    }
+    @Test
+    @DisplayName("그룹에 가입한 적이 없는데 멤버십 조회 할 때 MEMBERSHIP_NOT_FOUND 예외 발생")
+    void noMembershipException() {
+        UsersEntity user = UsersEntity.builder()
+            .id(1L)
+            .nickname(TEST_USER_NAME)
+            .build();
+
+        GroupsEntity group = GroupsEntity.builder()
+            .id(1L)
+            .name(TEST_GROUP_NAME)
+            .build();
+
+        when(membershipRepositorySupport.findByUserAndGroup(
+            user, group)).thenReturn(Optional.empty());
+
+        try {
+            membershipService.findByUserIdAndGroupIdOrThrow(user, group);
         } catch (BusinessException e) {
             assertEquals(e.getErrorCode(), ErrorCode.MEMBERSHIP_NOT_FOUND);
         }
