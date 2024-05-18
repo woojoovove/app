@@ -39,20 +39,21 @@ public class AlarmService {
                 .flatMap(target -> alarmHelperService.getUsersByTarget(target).stream())
                 .collect(Collectors.toSet());
 
-        MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setMessage(alarmHelperService.produceMessage(alarmDTO));
+        MessageDTO messageDTO = MessageDTO.builder()
+            .message(alarmHelperService.produceMessage(alarmDTO))
+            .build();
 
         Iterator<UsersEntity> iterator = users.iterator();
 
         /*
           코드의 의도 : maxRequestCount만큼의 메시지를 한 건의 이벤트로 발행하여
           외부 서버가 한 번에 maxRequestCount만큼만 처리할 수 있도록 함.
-
           @maxRequestCount: 외부 서버가 한 번에 처리할 수 있는 메시지 건 수
          */
         while (iterator.hasNext()) {
             List<String> targetTokens = new ArrayList<>();
             for (int count = 0; iterator.hasNext() && count<maxRequestCount; count++) {
+
                 UsersEntity user = iterator.next();
                 if (user != null) {
                     targetTokens.add(user.getToken());
