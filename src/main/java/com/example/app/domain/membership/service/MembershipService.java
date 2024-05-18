@@ -37,7 +37,7 @@ public class MembershipService {
     public JoinResultDTO joinGroup(JoinDTO joinDTOGroupDTO) {
 
         UsersEntity user = userService.findByUserNameOrThrow(joinDTOGroupDTO.getUserNickname());
-        GroupsEntity group = groupService.findByNameOrNull(joinDTOGroupDTO.getGroupName());
+        GroupsEntity group = groupService.findByNameOrThrow(joinDTOGroupDTO.getGroupName());
         MembershipEntity membership = membershipRepository.save(
             MembershipEntity.builder()
                 .user(user)
@@ -56,7 +56,7 @@ public class MembershipService {
 
     public LeaveResultDTO leaveGroup(LeaveDTO leaveDTO) {
         UsersEntity user = userService.findByUserNameOrThrow(leaveDTO.getUserNickname());
-        GroupsEntity group = groupService.findByNameOrNull(leaveDTO.getGroupName());
+        GroupsEntity group = groupService.findByNameOrThrow(leaveDTO.getGroupName());
         MembershipEntity membershipEntity = findByUserIdAndGroupIdOrThrow(user, group);
         membershipRepository.delete(membershipEntity);
 
