@@ -1,5 +1,7 @@
 package com.example.app.domain.alarm.service;
 
+import static com.example.app.domain.Constants.MAX_REQUEST_COUNT;
+
 import com.example.app.data.entity.UsersEntity;
 import com.example.app.domain.alarm.dto.AlarmDTO;
 import com.example.app.domain.message.dto.MessageDTO;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class AlarmService {
-    private static final long maxRequestCount = 5;
 
     private final AlarmHelperService alarmHelperService;
     private final Producer producer;
@@ -52,7 +53,7 @@ public class AlarmService {
          */
         while (iterator.hasNext()) {
             List<String> targetTokens = new ArrayList<>();
-            for (int count = 0; iterator.hasNext() && count<maxRequestCount; count++) {
+            for (int count = 0; iterator.hasNext() && count<MAX_REQUEST_COUNT; count++) {
 
                 UsersEntity user = iterator.next();
                 if (user != null) {

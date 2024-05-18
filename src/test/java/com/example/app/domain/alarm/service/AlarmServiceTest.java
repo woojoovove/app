@@ -1,5 +1,6 @@
 package com.example.app.domain.alarm.service;
 
+import static com.example.app.domain.Constants.MAX_REQUEST_COUNT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -31,10 +32,6 @@ public class AlarmServiceTest {
     private AlarmHelperService alarmHelperService;
     @Mock
     private Producer producer;
-
-    // TODO src랑 동기화
-    private static final long maxRequestCount = 5;
-
 
     /*
     코드의 의도 : pushAlarmService 내에서 HelperService의 3가지 메소드가
@@ -107,7 +104,7 @@ public class AlarmServiceTest {
         List<String> tokens = new ArrayList<>();
         List<UsersEntity> users = new ArrayList<>();
 
-        for (int i=1; i<=maxRequestCount + 1; i++) {
+        for (int i=1; i<=MAX_REQUEST_COUNT + 1; i++) {
             String token = "token" + i;
             targets.add("@user" + i);
             tokens.add(token);
@@ -137,7 +134,7 @@ public class AlarmServiceTest {
             .thenReturn(messageDTO.getMessage());
 
         // 1. set에 유저를 넣고 서비스의 결과가 set.size()와 일치하는지 확인
-        assertEquals(alarmService.pushAlarm(alarmDTO), maxRequestCount + 1);
+        assertEquals(alarmService.pushAlarm(alarmDTO), MAX_REQUEST_COUNT + 1);
 
         // 2. set에 넣은 유저의 토큰이 MessageDTO의 token과 일치하는지.
         assertEquals(messageDTO.getToken(), tokens);
