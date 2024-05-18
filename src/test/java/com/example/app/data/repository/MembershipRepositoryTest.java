@@ -48,7 +48,7 @@ public class MembershipRepositoryTest {
 
     @Test
     @DisplayName("멤버십 레포의 멤버십 삭제 확인")
-    void nonUserJoin() {
+    void leaveGroupTest() {
         membershipRepository.delete(
             MembershipEntity.builder()
                 .user(user)
