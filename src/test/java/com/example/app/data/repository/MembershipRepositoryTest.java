@@ -23,11 +23,12 @@ public class MembershipRepositoryTest {
     private TestEntityManager testEntityManager;
     @Autowired
     private MembershipRepository membershipRepository;
-    private MembershipRepositorySupport membershipRepositorySupport;
     @Autowired
     private UsersRepository usersRepository;
     @Autowired
     private GroupRepository groupRepository;
+    private MembershipRepositorySupport membershipRepositorySupport;
+    private GroupRepositorySupport groupRepositorySupport;
     private UsersEntity user;
     private GroupsEntity group;
     private MembershipEntity membership;
@@ -37,6 +38,7 @@ public class MembershipRepositoryTest {
 
         JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(testEntityManager.getEntityManager());
         membershipRepositorySupport = new MembershipRepositorySupport(jpaQueryFactory);
+        groupRepositorySupport = new GroupRepositorySupport(jpaQueryFactory);
 
         user = usersRepository.save(UsersEntity.builder().nickname("nickname").build());
         group = groupRepository.save(GroupsEntity.builder().name("groupname").build());
@@ -75,5 +77,25 @@ public class MembershipRepositoryTest {
         Optional<MembershipEntity> optional =
             membershipRepositorySupport.findByUserAndGroup(userNow, groupNow);
         assertEquals(Optional.empty(), optional);
+    }
+
+    @Test
+    @DisplayName("유저가 없는 그룹에서 유저 조회")
+    void findNoUsersByExistingGroupName(){
+        String now = new Date().toString();
+        GroupsEntity groupNow = groupRepository.save(GroupsEntity.builder().name(now).build());
+        assertTrue(groupRepositorySupport.findUsersByGroupName(groupNow.getName()).isEmpty());
+    }
+
+    @Test
+    @DisplayName("유저가 있는 그룹에서 유저 조회")
+    void findUsersByExistingGroupName(){
+        assertEquals(groupRepositorySupport.findUsersByGroupName(group.getName()).get(0), user);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 그룹에서 유저 조회")
+    void findUsersByNonExistingGroupName(){
+        assertTrue(groupRepositorySupport.findUsersByGroupName(new Date().toString()).isEmpty());
     }
 }
