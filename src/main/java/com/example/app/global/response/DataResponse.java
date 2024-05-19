@@ -22,10 +22,6 @@ public class DataResponse<T> {
                 .build();
     }
 
-    public static<T> ResponseEntity<DataResponse<T>> success() {
-        return ResponseEntity.ok(response(true, null));
-    }
-
     public static<T> ResponseEntity<DataResponse<T>> success(final T data) {
         return ResponseEntity.ok(response(true, data));
     }
