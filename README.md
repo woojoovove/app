@@ -1,4 +1,7 @@
-# 장애 알림 서비스  
+# 장애 알림 서비스 
+
+
+&nbsp;
 ## Readme 변경 이력
 
 | 일자     | 변경사항       | 작성자 |
@@ -26,6 +29,11 @@
 
 ![dev](https://github.com/woojoovove/app/assets/47964928/a9149161-db7b-4b2e-b473-d22c10f79399) | ![prd](https://github.com/woojoovove/app/assets/47964928/4985d61e-9b41-4eb0-bc54-426febb9ba4d)
 ---|---|  
+
+
+&nbsp;
+## 테이블 스키마
+![app](https://github.com/woojoovove/app/assets/47964928/71c6b1c8-4a8c-4800-bd71-a634ee703ad4)
 
 
 &nbsp;
