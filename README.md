@@ -5,19 +5,30 @@
 |------------|------------|-----|
 | 2024.05.19 | 최초 작성      | 정우진 |
 
+
+&nbsp;   
 ## 기능
 1. 사용자 알림 그룹을 생성하고, 원하는 사용자를 알림 그룹에 참여시킬 수 있습니다.  
 2. 사용자 이름/그룹 이름/와일드 카드(@all)를 사용하여 서버 장애에 대한 알림을 보낼 수 있습니다.  
 3. 알림을 처리하는 외부 서버가 한 번에 처리할 수 있는 메시지 건수가 N일 때,  
    N건을 하나의 이벤트로 발행하여 한 번에 N건씩 처리할 수 있게 합니다.
-5. 알림을 처리하는 외부 서버의 장애로 이벤트를 처리하지 못하는 경우에는
-   별도의 대기열에 추가하여 될때까지 재시도 합니다. (목표)
+5. (예정) 알림을 처리하는 외부 서버의 장애로 이벤트를 처리하지 못하는 경우에는
+   별도의 대기열에 추가하여 될때까지 재시도 합니다. 
 
+   
+&nbsp;
 ## 소프트웨어 아키텍처
-![dev](https://github.com/woojoovove/app/assets/47964928/6b98a467-aec8-429a-8c7c-8bd3b0b2f51f)
-![prd](https://github.com/woojoovove/app/assets/47964928/bc970872-8445-4a3f-997a-40c4652f9fc4)
+1. 본 앱의 클라이언트가 메시지 발송을 요청하면 본 앱은 이를 이벤트 브로커에 발행합니다.  
+2. 이벤트 브로커는 이벤트를 비동기적으로 처리할 수 있게 도와줍니다(비동기 통신).  
+   비동기 통신으로 인해 이벤트 프로듀서는 컨슈머의 가용성과 관계 없이 이벤트를 발행할 수 있습니다.  
+   컨슈머는 가능할 때 이벤트를 처리하면되므로 이벤트 발생과 무관하게 메인 업무를 수행할 수 있습니다 (컨슈머의 가용성 증대).  
+   이벤트 브로커는 이벤트를 보존하고 재큐잉할 수 있으므로 외부 이벤트 처리기의 장애가 시스템 장애로 전파되지 않습니다(장애 전파 방지).  
+
+![dev](https://github.com/woojoovove/app/assets/47964928/a9149161-db7b-4b2e-b473-d22c10f79399) | ![prd](https://github.com/woojoovove/app/assets/47964928/4985d61e-9b41-4eb0-bc54-426febb9ba4d)
+---|---|  
 
 
+&nbsp;
 ## 버전
 - JAVA 17  
 - SpringBoot 3.2.5
@@ -26,24 +37,27 @@
 - Docker Compose 2.17.3
 - kafka 3.2.3
 - zookeeper 3.4.10
-
+   
+&nbsp;
 ## 사전 요구사항
 - git
 - docker-compose
-
-## 실행 방법
-**방법1.** 개발용 로컬 머신에 스프링을 띄울 때
+   
+&nbsp;
+## 용도별 실행 방법
+**개발용**  : 스프링을 로컬 머신에 띄울 때
 
 ```shell
 user@hostname:/project/root/folder$ docker-compose -f docker-compose.yml up -d
 user@hostname:/project/root/folder$ ./gradlew bootRun --args='--spring.profiles.active=dev'
 ```
 
-**방법2.** 배포용 docker-compose에 스프링을 포함시켜 띄울 때
+**배포용**  : 스프링을 docker-compose에 포함시켜 띄울 때
 ```shell
 user@hostname:/project/root/folder$ docker-compose -f docker-compose-docker.yml up -d
 ```
-
+   
+&nbsp;
 ## 패키지 구조
 ```bash
 app                         
