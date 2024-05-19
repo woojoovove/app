@@ -16,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @Transactional
-class GroupSerivceIntegratedTest {
+class GroupCreationTest {
 
     @Autowired
     private GroupService groupService;
