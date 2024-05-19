@@ -44,7 +44,7 @@ public class MembershipServiceTest {
     private final static String TEST_USER_NAME = "test-user-for-membership-service";
     private final static String TEST_GROUP_NAME = "test-group-for-membership-service";
     @BeforeEach
-    void instantiateDTOs(){
+    void setUp(){
         joinDTO = JoinDTO.builder()
             .userNickname(TEST_USER_NAME)
             .groupName(TEST_GROUP_NAME).build();
