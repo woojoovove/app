@@ -37,13 +37,6 @@ public class GroupService {
         return groupRepositorySupport.findUsersByGroupName(groupName);
     }
 
-    // 없다고 바로 throw하지 않는 메소드가 필요함
-    // 예: 클라이언트가 알람 타겟을 표기할 때, 존재하지 않는 이름을 입력할 수도 있음.
-    public GroupsEntity findByNameOrNull(String groupName) {
-        Optional<GroupsEntity> optional = groupRepository.findByName(groupName);
-        return optional.orElse(null);
-    }
-
     public GroupsEntity findByNameOrThrow(String groupName) {
         Optional<GroupsEntity> optional = groupRepository.findByName(groupName);
         return optional.orElseThrow(() -> new BusinessException(ErrorCode.GROUP_NOT_FOUND));
