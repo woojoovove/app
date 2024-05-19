@@ -22,7 +22,7 @@ public class GroupDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Create {
-        @Schema(description = SchemaDescriptionUtils.Group.name, example = "group1")
+        @Schema(description = SchemaDescriptionUtils.Group.name, example = "group11")
         private String name;
     }
 
