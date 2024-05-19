@@ -2,14 +2,10 @@ package com.example.app.data.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.example.app.data.entity.GroupsEntity;
 import com.example.app.data.entity.MembershipEntity;
 import com.example.app.data.entity.UsersEntity;
-import com.example.app.data.repository.GroupRepository;
-import com.example.app.data.repository.MembershipRepository;
-import com.example.app.data.repository.UsersRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
