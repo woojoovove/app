@@ -15,7 +15,7 @@ public class MembershipDTO {
     public static class JoinDTO {
 
         @NotBlank
-        @Schema(description = SchemaDescriptionUtils.User.name, example = "member1")
+        @Schema(description = SchemaDescriptionUtils.User.name, example = "user1")
         private String userNickname;
 
         @NotBlank
@@ -32,7 +32,7 @@ public class MembershipDTO {
         private Long userId;
         @Schema(description = SchemaDescriptionUtils.Group.id, example = "1")
         private Long groupId;
-        @Schema(description = SchemaDescriptionUtils.User.name, example = "member1")
+        @Schema(description = SchemaDescriptionUtils.User.name, example = "user1")
         private String userNickname;
         @Schema(description = SchemaDescriptionUtils.Group.name, example = "group1")
         private String groupName;
@@ -40,7 +40,7 @@ public class MembershipDTO {
     @Getter @Builder
     public static class LeaveDTO {
         @NotBlank
-        @Schema(description = SchemaDescriptionUtils.User.name, example = "member1")
+        @Schema(description = SchemaDescriptionUtils.User.name, example = "user1")
         private String userNickname;
         @NotBlank
         @Schema(description = SchemaDescriptionUtils.Group.name, example = "group1")
@@ -55,7 +55,7 @@ public class MembershipDTO {
         private Long userId;
         @Schema(description = SchemaDescriptionUtils.Group.id, example = "1")
         private Long groupId;
-        @Schema(description = SchemaDescriptionUtils.User.name, example = "member1")
+        @Schema(description = SchemaDescriptionUtils.User.name, example = "user1")
         private String userNickname;
         @Schema(description = SchemaDescriptionUtils.Group.name, example = "group1")
         private String groupName;
