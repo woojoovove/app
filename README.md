@@ -1,4 +1,9 @@
 # 장애 알림 서비스  
+## Readme 변경 이력
+
+| 일자     | 변경사항       | 작성자 |
+|------------|------------|-----|
+| 2024.05.19 | 최초 작성      | 정우진 |
 
 ## 기능
 1. 사용자 알림 그룹을 생성하고, 원하는 사용자를 알림 그룹에 참여시킬 수 있습니다.  
@@ -8,19 +13,35 @@
 5. 알림을 처리하는 외부 서버의 장애로 이벤트를 처리하지 못하는 경우에는
    별도의 대기열에 추가하여 될때까지 재시도 합니다. (목표)
 
+## 소프트웨어 아키텍처
+![dev](https://github.com/woojoovove/app/assets/47964928/6b98a467-aec8-429a-8c7c-8bd3b0b2f51f)
+![prd](https://github.com/woojoovove/app/assets/47964928/bc970872-8445-4a3f-997a-40c4652f9fc4)
+
+
 ## 버전
 - JAVA 17  
-- SpringBoot 3.2.5  
+- SpringBoot 3.2.5
+- H2 2.2.224  
 - Docker 23.0.5  
 - Docker Compose 2.17.3
+- kafka 3.2.3
+- zookeeper 3.4.10
 
 ## 사전 요구사항
 - git
 - docker-compose
 
 ## 실행 방법
+**방법1.** 개발용 로컬 머신에 스프링을 띄울 때
+
 ```shell
-~$ docker-compose up
+user@hostname:/project/root/folder$ docker-compose -f docker-compose.yml up -d
+user@hostname:/project/root/folder$ ./gradlew bootRun --args='--spring.profiles.active=dev'
+```
+
+**방법2.** 배포용 docker-compose에 스프링을 포함시켜 띄울 때
+```shell
+user@hostname:/project/root/folder$ docker-compose -f docker-compose-docker.yml up -d
 ```
 
 ## 패키지 구조
