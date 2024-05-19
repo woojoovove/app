@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.app.kafka;
 
 import com.example.app.kafka.Producer;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,7 @@ class ProducerTest {
 
     @Test
     void test() {
-        testProducer.create();
+        String message = "{\"token\":[\"token9\",\"token6\",\"token5\",\"token7\",\"token2\"],\"message\":\"[CRITICAL] string\"}";
+        testProducer.create(message);
     }
 }

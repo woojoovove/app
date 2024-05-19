@@ -7,10 +7,8 @@ import com.example.app.data.repository.GroupRepositorySupport;
 import com.example.app.domain.group.dto.GroupDTO;
 import com.example.app.global.error.exception.BusinessException;
 import com.example.app.global.error.exception.ErrorCode;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -35,12 +33,12 @@ public class GroupService {
         return modelMapper.map(groupRepository.save(entity), GroupDTO.Get.class);
     }
 
-    public List<UsersEntity> getUsersByGroup(List<String> groupNames) {
-        List<GroupsEntity> groups = groupRepositorySupport.getGroupsByGroupNames(groupNames);
-        Set<UsersEntity> users = new HashSet<>();
-        for (GroupsEntity group : groups) {
-            users.addAll(group.getUsers());
-        }
-        return users.stream().toList();
+    public List<UsersEntity> getUsersByGroupName(String groupName) {
+        return groupRepositorySupport.findUsersByGroupName(groupName);
+    }
+
+    public GroupsEntity findByNameOrThrow(String groupName) {
+        Optional<GroupsEntity> optional = groupRepository.findByName(groupName);
+        return optional.orElseThrow(() -> new BusinessException(ErrorCode.GROUP_NOT_FOUND));
     }
 }

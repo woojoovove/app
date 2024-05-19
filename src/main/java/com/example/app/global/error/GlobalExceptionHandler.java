@@ -7,6 +7,7 @@ import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -39,5 +40,11 @@ public class GlobalExceptionHandler {
         log.error("Exception", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    protected ResponseEntity<ErrorResponse> handleInvalidRequestException(Exception e) {
+        log.error("Invalid JSON", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_REQUEST_JSON);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.INVALID_REQUEST_JSON.getStatus()));
     }
 }
