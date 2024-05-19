@@ -1,7 +1,6 @@
-package com.example.app.domain.membership;
+package com.example.app.domain.membership.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -11,7 +10,6 @@ import com.example.app.data.repository.MembershipRepositorySupport;
 import com.example.app.domain.group.service.GroupService;
 import com.example.app.domain.membership.dto.MembershipDTO.JoinDTO;
 import com.example.app.domain.membership.dto.MembershipDTO.LeaveDTO;
-import com.example.app.domain.membership.service.MembershipService;
 import com.example.app.domain.user.service.UserService;
 import com.example.app.global.error.exception.BusinessException;
 import com.example.app.global.error.exception.ErrorCode;
@@ -46,7 +44,7 @@ public class MembershipServiceTest {
     private final static String TEST_USER_NAME = "test-user-for-membership-service";
     private final static String TEST_GROUP_NAME = "test-group-for-membership-service";
     @BeforeEach
-    void instantiateDTOs(){
+    void setUp(){
         joinDTO = JoinDTO.builder()
             .userNickname(TEST_USER_NAME)
             .groupName(TEST_GROUP_NAME).build();

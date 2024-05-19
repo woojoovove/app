@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.app.kafka;
 
 import com.example.app.kafka.Producer;
 import org.junit.jupiter.api.Test;
