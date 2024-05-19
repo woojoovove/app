@@ -40,7 +40,7 @@ public class MembershipDTO {
     @Getter @Builder
     public static class LeaveDTO {
         @NotBlank
-        @Schema(description = SchemaDescriptionUtils.User.name, example = "user1")
+        @Schema(description = SchemaDescriptionUtils.User.name, example = "user11")
         private String userNickname;
         @NotBlank
         @Schema(description = SchemaDescriptionUtils.Group.name, example = "group1")
