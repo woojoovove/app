@@ -10,7 +10,6 @@ import com.example.app.domain.membership.dto.MembershipDTO.JoinDTO;
 import com.example.app.domain.membership.dto.MembershipDTO.JoinResultDTO;
 import com.example.app.domain.membership.service.MembershipService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,9 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-
-@Disabled("TODO : ResourceHttpRequestHandler 이슈 해결")
-@WebMvcTest(MembershipControllerTest.class)
+@WebMvcTest(MembershipController.class)
 public class MembershipControllerTest {
     @Autowired
     private MockMvc mockMvc;
